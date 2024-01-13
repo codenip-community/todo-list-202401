@@ -13,3 +13,9 @@ No framework should be used for this iteration.
 
 ### Concepts to apply
 None
+
+## Usage
+### Local development
+From root folder:
+* Build the Docker image: `docker build -t todo-list-202401-php .`
+* Run it: `docker run -p 8000:8000 -p 8080:8080 -v $(pwd):/var/www/html todo-list-202401-php`
