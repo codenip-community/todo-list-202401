@@ -7,4 +7,4 @@ EXPOSE 8080
 
 WORKDIR /var/www/html
 
-CMD ["bash", "-c", "php -S 0.0.0.0:8000 -t /var/www/html/public/assets/ & php -S 0.0.0.0:8080 -t /var/www/html/public/"]
+CMD ["bash", "-c", "php -S 0.0.0.0:8080 -t /var/www/html/ & php -S 0.0.0.0:8000 -t /var/www/html/"]
