@@ -17,7 +17,8 @@ $routes = [
 
 if (!array_key_exists($request['path'], $routes)) {
     http_response_code(404);
-    return 'Not Found';
+    echo 'Not Found';
+    die();
 }
 
 
