@@ -38,6 +38,7 @@ function getHome(array $request)
 
 function postHome(array $request)
 {
+    header("Content-type: application/json");
     echo json_encode(_queryData($request['method']));
 }
 
