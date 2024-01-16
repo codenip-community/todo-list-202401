@@ -3,7 +3,7 @@
 include_once('request.php');
 
 
-$backendRoutes = [
+$routes = [
     '/'     => [
         'GET'  => 'getHome',
         'POST' => 'postHome'
@@ -13,44 +13,24 @@ $backendRoutes = [
     ],
 ];
 
-$frontendRoutes = [
-    '/' => [
-        'GET' => 'getIndex',
-    ],
-];
-
-
-$serverPort = $_SERVER['SERVER_PORT'];
 $request = getCurrentRequest();
 
-
-$targetRouter = 'frontendRoutes';
-if ($serverPort === '8080'){
-    $targetRouter = 'backendRoutes';
-}
-
-
-if (!array_key_exists($request['path'], $$targetRouter)) {
+if (!array_key_exists($request['path'], $routes)) {
     http_response_code(404);
     echo 'Not Found';
     die();
 }
 
-
-$routePath = $$targetRouter[$request['path']];
+$routePath = $routes[$request['path']];
 
 if (!array_key_exists($request['method'], $routePath)) {
     http_response_code(405);
     die();
-}else{
+} else {
     call_user_func($routePath[$request['method']], $request);
 }
 
 
-function getIndex()
-{
-    readfile('index.html');
-}
 
 function getHome(array $request)
 {
