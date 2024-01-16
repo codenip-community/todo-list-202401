@@ -2,9 +2,8 @@
 
 include_once('request.php');
 
-$request = getCurrentRequest();
 
-$routes = [
+$backendRoutes = [
     '/'     => [
         'GET'  => 'getHome',
         'POST' => 'postHome'
@@ -14,23 +13,44 @@ $routes = [
     ],
 ];
 
+$frontendRoutes = [
+    '/' => [
+        'GET' => 'getIndex',
+    ],
+];
 
-if (!array_key_exists($request['path'], $routes)) {
+
+$serverPort = $_SERVER['SERVER_PORT'];
+$request = getCurrentRequest();
+
+
+$targetRouter = 'frontendRoutes';
+if ($serverPort === '8080'){
+    $targetRouter = 'backendRoutes';
+}
+
+
+if (!array_key_exists($request['path'], $$targetRouter)) {
     http_response_code(404);
     echo 'Not Found';
     die();
 }
 
 
-$routePath = $routes[$request['path']];
+$routePath = $$targetRouter[$request['path']];
 
 if (!array_key_exists($request['method'], $routePath)) {
     http_response_code(405);
-} else {
+    die();
+}else{
     call_user_func($routePath[$request['method']], $request);
 }
 
 
+function getIndex()
+{
+    readfile('index.html');
+}
 
 function getHome(array $request)
 {
@@ -39,8 +59,8 @@ function getHome(array $request)
 
 function postHome(array $request)
 {
-    header("Content-type: application/json");
-    echo json_encode(_queryData($request['method']));
+    header("Content-Type: application/json");
+    echo json_encode($request['query']);
 }
 
 function getPing(array $request)
