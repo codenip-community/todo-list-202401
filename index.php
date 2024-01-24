@@ -1,7 +1,10 @@
 <?php
 
 include_once('request.php');
+include_once('auth.php');
 
+$token = initializeUserToken();
+$userId = getUserId();
 
 $routes = [
     '/'     => [
